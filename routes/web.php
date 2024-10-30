@@ -52,3 +52,8 @@ Route::get('/google-auth/callback', function () {
 });
 
 require __DIR__ . '/auth.php';
+
+
+
+Route::get('/dashboard', [ProfileController::class, 'dashboard'])->middleware('auth');
+Route::get('/dashboard', [ProfileController::class, 'dashboard'])->middleware('auth')->name('dashboard');

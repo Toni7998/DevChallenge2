@@ -57,4 +57,18 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * Display the user's dashboard.
+     */
+    public function dashboard(): View
+    {
+        // Obtén el usuario autenticado
+        $user = Auth::user();
+
+        // Si necesitas actividades recientes
+        $recentActivities = []; // Aquí deberías obtener tus actividades recientes
+
+        return view('dashboard', compact('user', 'recentActivities'));
+    }
 }
