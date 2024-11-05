@@ -33,8 +33,15 @@ return [
 
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
-        'client_secret' => env('GOOGLE_SECRET'),
+        'client_secret' => env(key: 'GOOGLE_SECRET'),
         'redirect' => 'http://127.0.0.1:8000/google-auth/callback',
     ],
+
+    'twitter' => [
+        'client_id' => env('TWITTER_CLIENT_ID'), // Cambiado a la variable correcta
+        'client_secret' => env('TWITTER_CLIENT_SECRET'), // Cambiado a la variable correcta
+        'redirect' => env('TWITTER_REDIRECT_URI'), // Cambiado a la variable correcta
+    ],
+
 
 ];

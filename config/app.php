@@ -159,6 +159,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Laravel\Socialite\SocialiteServiceProvider::class, // Asegúrate de que esta línea esté aquí
 
         /*
          * Application Service Providers...
@@ -182,6 +183,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class, // Asegúrate de que esta línea esté aquí
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 

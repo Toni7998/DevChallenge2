@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
-
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,3 +57,7 @@ require __DIR__ . '/auth.php';
 
 Route::get('/dashboard', [ProfileController::class, 'dashboard'])->middleware('auth');
 Route::get('/dashboard', [ProfileController::class, 'dashboard'])->middleware('auth')->name('dashboard');
+
+Route::get('auth/twitter', [LoginController::class, 'redirectToTwitter'])->name('auth.twitter');
+Route::get('auth/twitter/callback', [LoginController::class, 'handleTwitterCallback']);
+Route::post('/confirm-login/{userId}', [LoginController::class, 'confirmLogin'])->name('confirm.login');
