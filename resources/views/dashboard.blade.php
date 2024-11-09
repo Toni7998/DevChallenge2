@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container mx-auto px-4 py-6">
     <h1 class="title">Bienvenido, {{ $user->name }}</h1>
 
-    <div class="dashboard">
+    <div class="dashboard flex flex-col md:flex-row gap-6 justify-center">
         <!-- Tarjeta de Información del Usuario -->
         <div class="card user-info">
             <div class="card-header">
@@ -44,15 +44,6 @@
 
 <!-- Estilos CSS -->
 <style>
-    body {
-        background-color: #f9f9f9;
-        /* Fondo gris claro */
-        font-family: 'Arial', sans-serif;
-        /* Fuente clara y profesional */
-        margin: 0;
-        padding: 20px;
-    }
-
     .title {
         text-align: center;
         color: #333;
@@ -61,74 +52,61 @@
 
     .dashboard {
         display: flex;
-        justify-content: space-between;
+        flex-wrap: wrap;
         gap: 20px;
-        /* Espaciado entre las tarjetas */
+        margin-bottom: 40px;
     }
 
     .card {
         background-color: #ffffff;
-        /* Fondo blanco para las tarjetas */
-        border-radius: 8px;
-        /* Bordes redondeados */
+        border-radius: 10px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        /* Sombra suave */
         width: 100%;
-        /* Ancho completo */
+        max-width: 480px;
         transition: box-shadow 0.3s;
     }
 
     .card:hover {
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        /* Sombra más fuerte al pasar el ratón */
     }
 
     .card-header {
         background-color: #007bff;
-        /* Color de fondo para la cabecera */
         color: white;
-        /* Color de texto en la cabecera */
-        padding: 15px;
+        padding: 20px;
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
+        text-align: center;
     }
 
     .card-body {
         padding: 20px;
+        text-align: center;
     }
 
     .profile-pic {
         width: 100px;
-        /* Ancho de la imagen del perfil */
         height: 100px;
-        /* Alto de la imagen del perfil */
         border-radius: 50%;
-        /* Imagen circular */
         margin-bottom: 15px;
-        /* Espacio debajo de la imagen */
     }
 
     .btn {
         display: inline-block;
         padding: 10px 20px;
         background-color: #007bff;
-        /* Color de fondo del botón */
         color: white;
-        /* Color de texto del botón */
         text-decoration: none;
         border-radius: 5px;
-        /* Bordes redondeados del botón */
         transition: background-color 0.3s;
     }
 
     .btn:hover {
         background-color: #0056b3;
-        /* Color más oscuro al pasar el ratón */
     }
 
     .activity-list {
         list-style: none;
-        /* Sin viñetas */
         padding: 0;
         margin: 0;
     }
@@ -136,22 +114,17 @@
     .activity-item {
         padding: 10px;
         border-bottom: 1px solid #eee;
-        /* Separación entre actividades */
         display: flex;
         justify-content: space-between;
-        /* Justificar el contenido */
     }
 
     .activity-item:last-child {
         border-bottom: none;
-        /* Sin borde para el último elemento */
     }
 
     .activity-time {
         color: #888;
-        /* Color gris para la fecha */
         font-size: 0.9em;
-        /* Tamaño de fuente más pequeño */
     }
 </style>
 @endsection

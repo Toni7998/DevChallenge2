@@ -31,7 +31,7 @@
 
         <!-- Page Content -->
         <main>
-            @yield('content')
+            @yield('content') <!-- Aquí es donde se inyecta el contenido -->
         </main>
     </div>
 </body>
