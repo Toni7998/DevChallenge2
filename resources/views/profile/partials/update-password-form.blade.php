@@ -1,4 +1,4 @@
-<section class="space-y-6">
+<section class="space-y-0">
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
             {{ __('Update Password') }}
@@ -9,7 +9,7 @@
         </p>
     </header>
 
-    <form method="post" action="{{ route('password.update') }}" class="p-6 space-y-6">
+    <form method="post" action="{{ route('password.update') }}" class="p-0 space-y-6">
         @csrf
         @method('put')
 
