@@ -11,9 +11,8 @@
                 <h5>Información del Usuario</h5>
             </div>
             <div class="card-body text-center">
-                <img src="{{ $user->profile_picture }}" alt="Profile Picture" class="profile-pic">
                 <h6>Nombre: <strong>{{ $user->name }}</strong></h6>
-                <p>Correo: <strong>{{ $user->email }}</strong></p>
+                <p>Correo: <strong>{{ $user->email }}</strong></p><br>
                 <a href="{{ route('profile.edit') }}" class="btn">Editar Perfil</a>
             </div>
         </div>
@@ -46,7 +45,7 @@
 <style>
     .title {
         text-align: center;
-        color: #333;
+        color: #ffffff;
         margin-bottom: 40px;
     }
 
@@ -71,7 +70,7 @@
     }
 
     .card-header {
-        background-color: #007bff;
+        background-color: #2A3B47;
         color: white;
         padding: 20px;
         border-top-left-radius: 8px;
@@ -94,7 +93,7 @@
     .btn {
         display: inline-block;
         padding: 10px 20px;
-        background-color: #007bff;
+        background-color: #697477;
         color: white;
         text-decoration: none;
         border-radius: 5px;
@@ -102,7 +101,7 @@
     }
 
     .btn:hover {
-        background-color: #0056b3;
+        background-color: #2A3B47;
     }
 
     .activity-list {
