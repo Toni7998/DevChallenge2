@@ -24,18 +24,18 @@
             </a>
         </div>
 
-        <div
+        <div>
             class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
             {{ $slot }}
         </div>
 
-        <div
+        <div>
             class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg text-center">
             <a href="/google-auth/redirect" class="text-sm text-gray-600 dark:text-gray-400 hover:underline">SSO amb
                 Google</a>
         </div>
 
-        <div
+        <div>
             class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg text-center">
             <a href="{{ url('auth/twitter') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:underline">SSO amb
                 Twitter</a>
