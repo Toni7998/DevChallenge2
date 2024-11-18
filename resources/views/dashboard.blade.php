@@ -73,14 +73,16 @@
         background-color: #2A3B47;
         color: white;
         padding: 20px;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
         text-align: center;
     }
 
     .card-body {
         padding: 20px;
         text-align: center;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
     }
 
     .profile-pic {
