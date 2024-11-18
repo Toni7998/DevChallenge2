@@ -34,7 +34,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')" class="text-gray-800 dark:text-gray-200">
+                        <x-dropdown-link :href="route('profile.edit')" class="text-gray-800 dark:text-gray-1000">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
@@ -44,7 +44,7 @@
 
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
-                                                this.closest('form').submit();" class="text-gray-800 dark:text-gray-200">
+                                                this.closest('form').submit();" class="text-gray-400 dark:text-gray-1000">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
