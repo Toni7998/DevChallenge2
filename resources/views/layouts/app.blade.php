@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
 
 <head>
     <meta charset="utf-8">
@@ -16,23 +16,28 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased dark:bg-gray-900 text-gray-900 dark:text-gray-800"> <!-- Cambié dark:text-white por dark:text-gray-800 -->
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+<body class="font-sans antialiased bg-gray-300 text-gray-900 dark:bg-gray-900 dark:text-gray-1000">
+    <div class="min-h-screen flex flex-col">
         @include('layouts.navigation')
 
         <!-- Page Heading -->
         @isset($header)
-            <header class="bg-white dark:bg-gray-800 shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <header class="bg-gray-100 dark:bg-gray-800 shadow-md">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-gray-900 dark:text-gray-1000">
                     {{ $header }}
                 </div>
             </header>
         @endisset
 
         <!-- Page Content -->
-        <main>
+        <main class="flex-grow">
             @yield('content')
         </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-100 dark:bg-gray-800 text-center py-4 text-sm text-gray-600 dark:text-gray-400">
+            © {{ date('Y') }} {{ config('app.name', 'Laravel') }}. Tots els drets reservats.
+        </footer>
     </div>
 </body>
 

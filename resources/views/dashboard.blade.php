@@ -125,5 +125,39 @@
         color: #888;
         font-size: 0.9em;
     }
+
+    /* Modo oscuro */
+    .dark .card {
+        background-color: #2A3B47;
+        border-color: #4A5A64;
+    }
+
+    .dark .card-header {
+        background-color: #1A252F;
+    }
+
+    .dark .card-body {
+        background-color: #2A3B47;
+        color: #d1d5db;
+        /* Texto más claro en modo oscuro */
+    }
+
+    .dark .btn {
+        background-color: #4A5A64;
+    }
+
+    .dark .btn:hover {
+        background-color: #2A3B47;
+    }
+
+    .dark .activity-item {
+        border-bottom: 1px solid #3b444b;
+        /* Más oscuro en el modo oscuro */
+    }
+
+    .dark .activity-time {
+        color: #aaa;
+    }
 </style>
+
 @endsection
