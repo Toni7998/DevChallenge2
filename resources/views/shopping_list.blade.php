@@ -1,166 +1,52 @@
-<!DOCTYPE html>
-<html lang="es">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Llista de Compra</title>
-    <style>
-        /* Reset de estilos */
-        body,
-        h1,
-        h2,
-        p,
-        form,
-        input,
-        select,
-        button {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+@section('content')
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-semibold text-center text-gray-900 dark:text-gray-100 mb-8">Llista de Compra</h1>
 
-        /* Fondo general */
-        body {
-            background-color: #f7f7f7;
-            color: #333;
-            padding: 20px;
-            line-height: 1.5;
-        }
+    <!-- Mostrar mensajes de éxito -->
+    @if (session('success'))
+        <div class="bg-green-500 text-white p-4 rounded-md mb-6 text-center">{{ session('success') }}</div>
+    @endif
 
-        /* Contenedor principal */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+    <!-- Formulario para agregar un nuevo elemento -->
+    <form action="{{ route('shopping_list.add') }}" method="POST" class="mb-8 text-center">
+        @csrf
+        <input type="text" name="item_name" placeholder="Nom de l'element" required
+            class="p-3 mb-4 w-3/4 max-w-md border rounded-md text-gray-900 dark:text-gray-100 dark:bg-gray-800 dark:border-gray-700">
+        <select name="category" required
+            class="p-3 mb-4 w-3/4 max-w-md border rounded-md text-gray-900 dark:text-gray-100 dark:bg-gray-800 dark:border-gray-700">
+            <option value="">Selecciona Categoria</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category }}">{{ $category }}</option>
+            @endforeach
+        </select>
+        <button type="submit" class="bg-green-500 text-white p-3 rounded-md hover:bg-green-600 transition-colors">Afegir
+            Element</button>
+    </form>
 
-        /* Títulos */
-        h1,
-        h2 {
-            text-align: center;
-            color: #4CAF50;
-        }
+    <!-- Formulario para agregar una nueva categoría -->
+    <form action="{{ route('shopping_list.add_category') }}" method="POST" class="mb-8 text-center">
+        @csrf
+        <input type="text" name="category_name" placeholder="Nom de la categoria" required
+            class="p-3 mb-4 w-3/4 max-w-md border rounded-md text-gray-900 dark:text-gray-100 dark:bg-gray-800 dark:border-gray-700">
+        <button type="submit" class="bg-green-500 text-white p-3 rounded-md hover:bg-green-600 transition-colors">Afegir
+            Categoria</button>
+    </form>
 
-        h1 {
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            margin-top: 20px;
-        }
-
-        /* Formulario para añadir items y categorías */
-        form {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        input[type="text"],
-        select {
-            padding: 10px;
-            margin: 10px;
-            width: 80%;
-            max-width: 300px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        /* Estilo para la lista de elementos */
-        .item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #f1f1f1;
-            border-radius: 5px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .item span {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .item button {
-            background-color: #f44336;
-            margin-left: 10px;
-        }
-
-        /* Estilo para mensajes de éxito */
-        .success-message {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 20px 0;
-            text-align: center;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <h1>Llista de Compra</h1>
-
-        <!-- Mostrar mensajes de éxito -->
-        @if (session('success'))
-            <div class="success-message">{{ session('success') }}</div>
-        @endif
-
-        <!-- Formulario para agregar un nuevo elemento -->
-        <form action="{{ route('shopping_list.add') }}" method="POST">
-            @csrf
-            <input type="text" name="item_name" placeholder="Nom de l'element" required>
-            <select name="category" required>
-                <option value="">Selecciona Categoria</option>
-                @foreach ($categories as $category)
-                    <option value="{{ $category }}">{{ $category }}</option>
-                @endforeach
-            </select>
-            <button type="submit">Afegir Element</button>
-        </form>
-
-        <!-- Formulario para agregar una nueva categoría -->
-        <form action="{{ route('shopping_list.add_category') }}" method="POST">
-            @csrf
-            <input type="text" name="category_name" placeholder="Nom de la categoria" required>
-            <button type="submit">Afegir Categoria</button>
-        </form>
-
-        <!-- Mostrar los elementos de la lista -->
-        <h2>Elements de la Llista</h2>
-        @foreach ($itemsWithIds as $item)
-            <div class="item">
-                <span>{{ $item['item_name'] }} ({{ $item['category'] }})</span>
-                <form action="{{ route('shopping_list.delete') }}" method="POST" style="display:inline;">
-                    @csrf
-                    <input type="hidden" name="item_id" value="{{ $item['id'] }}">
-                    <button type="submit">Esborrar</button>
-                </form>
-            </div>
-        @endforeach
-    </div>
-</body>
-
-</html>
+    <!-- Mostrar los elementos de la lista -->
+    <h2 class="text-2xl font-semibold text-center text-gray-900 dark:text-gray-100 mb-6">Elements de la Llista</h2>
+    @foreach ($itemsWithIds as $item)
+        <div class="item bg-gray-200 dark:bg-gray-700 p-4 rounded-md mb-4 flex justify-between items-center shadow-md">
+            <span class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ $item['item_name'] }}
+                ({{ $item['category'] }})</span>
+            <form action="{{ route('shopping_list.delete') }}" method="POST" class="inline">
+                @csrf
+                <input type="hidden" name="item_id" value="{{ $item['id'] }}">
+                <button type="submit"
+                    class="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-colors">Esborrar</button>
+            </form>
+        </div>
+    @endforeach
+</div>
+@endsection
