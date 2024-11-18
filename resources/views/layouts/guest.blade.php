@@ -18,24 +18,24 @@
 
 <body class="font-sans text-gray-900 antialiased bg-gray-100 dark:bg-gray-900 dark:text-gray-100">
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
-        <div>
+        <div
             <a href="/">
                 <x-application-logo class="w-20 h-20 fill-current text-gray-500 dark:text-gray-400" />
             </a>
         </div>
 
-        <div>
+        <div
             class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
             {{ $slot }}
         </div>
 
-        <div>
+        <div
             class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg text-center">
             <a href="/google-auth/redirect" class="text-sm text-gray-600 dark:text-gray-400 hover:underline">SSO amb
                 Google</a>
         </div>
 
-        <div>
+        <div
             class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg text-center">
             <a href="{{ url('auth/twitter') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:underline">SSO amb
                 Twitter</a>
