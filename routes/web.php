@@ -7,6 +7,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ShoppingListController;
+use App\Http\Controllers\FirebaseController;
 
 /*
 |---------------------------------------------------------------------------
@@ -80,3 +81,6 @@ Route::get('/shopping_list', [ShoppingListController::class, 'index'])->name('sh
 Route::post('/shopping_list/add', [ShoppingListController::class, 'addItem'])->name('shopping_list.add');
 Route::post('/shopping_list/add_category', [ShoppingListController::class, 'addCategory'])->name('shopping_list.add_category');
 Route::post('/shopping_list/delete', [ShoppingListController::class, 'deleteItem'])->name('shopping_list.delete');
+
+//Ruta para el firebase
+Route::get('/firebase-test', [FirebaseController::class, 'testConnection']);
