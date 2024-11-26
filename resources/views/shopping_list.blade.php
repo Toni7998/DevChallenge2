@@ -67,14 +67,14 @@
             setTimeout(() => messageBox.classList.add('hidden'), 3000);
         };
 
-        // Cargar categorías
+        // Cargar categorías con onValue
         onValue(categoriesRef, (snapshot) => {
             const categories = snapshot.val() || {};
             categorySelect.innerHTML = '<option value="">Selecciona Categoria</option>';
             Object.keys(categories).forEach((key) => {
                 const option = document.createElement('option');
-                option.value = key;
-                option.textContent = categories[key].name;
+                option.value = key; // Usar la clave como valor del option (para referencia interna)
+                option.textContent = categories[key]?.name || 'Categoria sense nom'; // Mostrar el nombre de la categoría
                 categorySelect.appendChild(option);
             });
         });
@@ -87,13 +87,13 @@
                 const div = document.createElement('div');
                 div.className = 'item bg-gray-200 dark:bg-gray-700 p-4 rounded-md mb-4 flex justify-between items-center shadow-md';
                 div.innerHTML = `
-                    <span class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                        ${item.name} (${item.category || 'Sense categoria'})
-                    </span>
-                    <button class="delete-btn bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-colors" data-id="${key}">
-                        Esborrar
-                    </button>
-                `;
+                <span class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                    ${item.name} (${item.category || 'Sense categoria'})
+                </span>
+                <button class="delete-btn bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-colors" data-id="${key}">
+                    Esborrar
+                </button>
+            `;
                 shoppingListContainer.appendChild(div);
             });
 
@@ -111,10 +111,21 @@
         document.getElementById('addItemForm').addEventListener('submit', (event) => {
             event.preventDefault();
             const itemName = document.getElementById('item_name').value;
-            const category = document.getElementById('category').value;
+            const categoryId = document.getElementById('category').value;
 
-            push(shoppingListRef, { name: itemName, category });
-            showMessage('Element afegit correctament!');
+            // Buscar el nombre de la categoría usando el ID
+            let categoryName = '';
+            onValue(ref(database, 'categories/' + categoryId), (snapshot) => {
+                const category = snapshot.val();
+                if (category) {
+                    categoryName = category.name;
+                }
+
+                // Guardar el nuevo item con el nombre de la categoría
+                push(shoppingListRef, { name: itemName, category: categoryName });
+                showMessage('Element afegit correctament!');
+            });
+
             event.target.reset();
         });
 
@@ -123,11 +134,15 @@
             event.preventDefault();
             const categoryName = document.getElementById('category_name').value;
 
+            // Guardar la categoría en Firebase, asegurándote de que solo guardas el nombre
             push(categoriesRef, { name: categoryName });
+
             showMessage('Categoria afegida correctament!');
             event.target.reset();
         });
     });
+
+
 </script>
 
 
