@@ -50,8 +50,9 @@ return [
              *
              */
 
-            'credentials' => env('FIREBASE_CREDENTIALS', env('GOOGLE_APPLICATION_CREDENTIALS')),
-
+            'credentials' => [
+                'file' => env('FIREBASE_CREDENTIALS'),
+            ],
             /*
              * ------------------------------------------------------------------------
              * Firebase Auth Component
@@ -215,7 +216,13 @@ return [
                 'timeout' => env('FIREBASE_HTTP_CLIENT_TIMEOUT'),
 
                 'guzzle_middlewares' => [],
+
             ],
         ],
+
     ],
+
 ];
+
+
+

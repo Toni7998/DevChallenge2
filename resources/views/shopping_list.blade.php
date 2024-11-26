@@ -5,30 +5,23 @@
     <h1 class="text-3xl font-semibold text-center text-gray-900 dark:text-gray-100 mb-8">Llista de Compra</h1>
 
     <!-- Mostrar mensajes de éxito -->
-    @if (session('success'))
-        <div class="bg-green-500 text-white p-4 rounded-md mb-6 text-center">{{ session('success') }}</div>
-    @endif
+    <div id="message" class="hidden bg-green-500 text-white p-4 rounded-md mb-6 text-center"></div>
 
     <!-- Formulario para agregar un nuevo elemento -->
-    <form action="{{ route('shopping_list.add') }}" method="POST" class="mb-8 text-center">
-        @csrf
-        <input type="text" name="item_name" placeholder="Nom de l'element" required
+    <form id="addItemForm" class="mb-8 text-center">
+        <input type="text" name="item_name" id="item_name" placeholder="Nom de l'element" required
             class="p-3 mb-4 w-3/4 max-w-md border rounded-md text-gray-900 dark:text-gray-100 dark:bg-gray-800 dark:border-gray-700">
-        <select name="category" required
+        <select name="category" id="category" required
             class="p-3 mb-4 w-3/4 max-w-md border rounded-md text-gray-900 dark:text-gray-100 dark:bg-gray-800 dark:border-gray-700">
             <option value="">Selecciona Categoria</option>
-            @foreach ($categories as $category)
-                <option value="{{ $category }}">{{ $category }}</option>
-            @endforeach
         </select>
         <button type="submit" class="bg-green-500 text-white p-3 rounded-md hover:bg-green-600 transition-colors">Afegir
             Element</button>
     </form>
 
     <!-- Formulario para agregar una nueva categoría -->
-    <form action="{{ route('shopping_list.add_category') }}" method="POST" class="mb-8 text-center">
-        @csrf
-        <input type="text" name="category_name" placeholder="Nom de la categoria" required
+    <form id="addCategoryForm" class="mb-8 text-center">
+        <input type="text" name="category_name" id="category_name" placeholder="Nom de la categoria" required
             class="p-3 mb-4 w-3/4 max-w-md border rounded-md text-gray-900 dark:text-gray-100 dark:bg-gray-800 dark:border-gray-700">
         <button type="submit" class="bg-green-500 text-white p-3 rounded-md hover:bg-green-600 transition-colors">Afegir
             Categoria</button>
@@ -36,17 +29,86 @@
 
     <!-- Mostrar los elementos de la lista -->
     <h2 class="text-2xl font-semibold text-center text-gray-900 dark:text-gray-100 mb-6">Elements de la Llista</h2>
-    @foreach ($itemsWithIds as $item)
-        <div class="item bg-gray-200 dark:bg-gray-700 p-4 rounded-md mb-4 flex justify-between items-center shadow-md">
-            <span class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ $item['item_name'] }}
-                ({{ $item['category'] }})</span>
-            <form action="{{ route('shopping_list.delete') }}" method="POST" class="inline">
-                @csrf
-                <input type="hidden" name="item_id" value="{{ $item['id'] }}">
-                <button type="submit"
-                    class="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-colors">Esborrar</button>
-            </form>
-        </div>
-    @endforeach
+    <div id="shoppingList"></div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const database = firebase.database();
+        const shoppingListRef = database.ref('shopping_list');
+        const categoriesRef = database.ref('categories');
+
+        const shoppingListContainer = document.getElementById('shoppingList');
+        const categorySelect = document.getElementById('category');
+        const messageBox = document.getElementById('message');
+
+        // Función para mostrar mensajes
+        const showMessage = (message) => {
+            messageBox.textContent = message;
+            messageBox.classList.remove('hidden');
+            setTimeout(() => messageBox.classList.add('hidden'), 3000);
+        };
+
+        // Cargar categorías
+        categoriesRef.on('value', (snapshot) => {
+            const categories = snapshot.val() || {};
+            categorySelect.innerHTML = '<option value="">Selecciona Categoria</option>';
+            Object.keys(categories).forEach((key) => {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = categories[key].name;
+                categorySelect.appendChild(option);
+            });
+        });
+
+        // Cargar lista de compra
+        shoppingListRef.on('value', (snapshot) => {
+            shoppingListContainer.innerHTML = '';
+            const items = snapshot.val() || {};
+            Object.entries(items).forEach(([key, item]) => {
+                const div = document.createElement('div');
+                div.className = 'item bg-gray-200 dark:bg-gray-700 p-4 rounded-md mb-4 flex justify-between items-center shadow-md';
+                div.innerHTML = `
+                    <span class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                        ${item.name} (${item.category || 'Sense categoria'})
+                    </span>
+                    <button class="delete-btn bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-colors" data-id="${key}">
+                        Esborrar
+                    </button>
+                `;
+                shoppingListContainer.appendChild(div);
+            });
+
+            // Eliminar elementos
+            document.querySelectorAll('.delete-btn').forEach((button) => {
+                button.addEventListener('click', (event) => {
+                    const id = event.target.dataset.id;
+                    shoppingListRef.child(id).remove();
+                    showMessage('Element esborrat correctament!');
+                });
+            });
+        });
+
+        // Agregar nuevo elemento
+        document.getElementById('addItemForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const itemName = document.getElementById('item_name').value;
+            const category = document.getElementById('category').value;
+
+            shoppingListRef.push({ name: itemName, category });
+            showMessage('Element afegit correctament!');
+            event.target.reset();
+        });
+
+        // Agregar nueva categoría
+        document.getElementById('addCategoryForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const categoryName = document.getElementById('category_name').value;
+
+            categoriesRef.push({ name: categoryName });
+            showMessage('Categoria afegida correctament!');
+            event.target.reset();
+        });
+    });
+</script>
 @endsection

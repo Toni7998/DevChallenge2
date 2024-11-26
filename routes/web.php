@@ -83,4 +83,5 @@ Route::post('/shopping_list/add_category', [ShoppingListController::class, 'addC
 Route::post('/shopping_list/delete', [ShoppingListController::class, 'deleteItem'])->name('shopping_list.delete');
 
 //Ruta para el firebase
-Route::get('/firebase-test', [FirebaseController::class, 'testConnection']);
+Route::get('/firebase/store', [FirebaseController::class, 'storeData']);
+Route::get('/firebase/get', [FirebaseController::class, 'getData']);
