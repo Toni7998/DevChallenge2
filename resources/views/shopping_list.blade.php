@@ -36,9 +36,9 @@
 
 <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js';
-    import { getDatabase, ref, push, remove, onValue } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js';
+    import { getDatabase, ref, push, remove, onValue, set } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js';
 
-    // Configuración de Firebase
+    // Configuració de Firebase
     const firebaseConfig = {
         apiKey: "AIzaSyDxW1e7hZTJ0gOTR2A5Xkxl1dsjmsxyz",
         authDomain: "m12-proyecto.firebaseapp.com",
@@ -49,7 +49,7 @@
         appId: "1:109360802652583660232:web:9b8a1b2bc0f2388b124c68"
     };
 
-    // Inicializa Firebase
+    // Inicialitza Firebase
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
@@ -67,19 +67,19 @@
             setTimeout(() => messageBox.classList.add('hidden'), 3000);
         };
 
-        // Cargar categorías con onValue
+        // Càrrega de categories
         onValue(categoriesRef, (snapshot) => {
             const categories = snapshot.val() || {};
             categorySelect.innerHTML = '<option value="">Selecciona Categoria</option>';
             Object.keys(categories).forEach((key) => {
                 const option = document.createElement('option');
-                option.value = key; // Usar la clave como valor del option (para referencia interna)
-                option.textContent = categories[key]?.name || 'Categoria sense nom'; // Mostrar el nombre de la categoría
+                option.value = key;
+                option.textContent = categories[key]?.name || 'Categoria sense nom';
                 categorySelect.appendChild(option);
             });
         });
 
-        // Cargar lista de compra
+        // Càrrega de la llista de la compra
         onValue(shoppingListRef, (snapshot) => {
             shoppingListContainer.innerHTML = '';
             const items = snapshot.val() || {};
@@ -87,17 +87,22 @@
                 const div = document.createElement('div');
                 div.className = 'item bg-gray-200 dark:bg-gray-700 p-4 rounded-md mb-4 flex justify-between items-center shadow-md';
                 div.innerHTML = `
-                <span class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                    ${item.name} (${item.category || 'Sense categoria'})
-                </span>
-                <button class="delete-btn bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-colors" data-id="${key}">
-                    Esborrar
-                </button>
-            `;
+                    <span class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                        ${item.name} (${item.category || 'Sense categoria'})
+                    </span>
+                    <div class="flex items-center space-x-2">
+                        <button class="done-btn ${item.done ? 'bg-green-500' : 'bg-gray-500'} text-white p-2 rounded-md transition-colors" data-id="${key}">
+                            ${item.done ? 'Fet' : 'Per Fer'}
+                        </button>
+                        <button class="delete-btn bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-colors" data-id="${key}">
+                            Esborrar
+                        </button>
+                    </div>
+                `;
                 shoppingListContainer.appendChild(div);
             });
 
-            // Eliminar elementos
+            // Gestió del botó "Esborrar"
             document.querySelectorAll('.delete-btn').forEach((button) => {
                 button.addEventListener('click', (event) => {
                     const id = event.target.dataset.id;
@@ -105,15 +110,31 @@
                     showMessage('Element esborrat correctament!');
                 });
             });
+
+            // Gestió del botó "Fet"
+            document.querySelectorAll('.done-btn').forEach((button) => {
+                button.addEventListener('click', (event) => {
+                    const id = event.target.dataset.id;
+                    const itemRef = ref(database, 'shopping_list/' + id);
+
+                    // Alternar l'estat de "fet"
+                    onValue(itemRef, (snapshot) => {
+                        const item = snapshot.val();
+                        const newState = !item.done;
+
+                        // Actualitzar l'element amb el nou estat
+                        set(itemRef, { ...item, done: newState });
+                    }, { onlyOnce: true });
+                });
+            });
         });
 
-        // Agregar nuevo elemento
+        // Afegir nou element
         document.getElementById('addItemForm').addEventListener('submit', (event) => {
             event.preventDefault();
             const itemName = document.getElementById('item_name').value;
             const categoryId = document.getElementById('category').value;
 
-            // Buscar el nombre de la categoría usando el ID
             let categoryName = '';
             onValue(ref(database, 'categories/' + categoryId), (snapshot) => {
                 const category = snapshot.val();
@@ -121,29 +142,25 @@
                     categoryName = category.name;
                 }
 
-                // Guardar el nuevo item con el nombre de la categoría
-                push(shoppingListRef, { name: itemName, category: categoryName });
+                push(shoppingListRef, { name: itemName, category: categoryName, done: false });
                 showMessage('Element afegit correctament!');
             });
 
             event.target.reset();
         });
 
-        // Agregar nueva categoría
+        // Afegir nova categoria
         document.getElementById('addCategoryForm').addEventListener('submit', (event) => {
             event.preventDefault();
             const categoryName = document.getElementById('category_name').value;
 
-            // Guardar la categoría en Firebase, asegurándote de que solo guardas el nombre
             push(categoriesRef, { name: categoryName });
-
             showMessage('Categoria afegida correctament!');
             event.target.reset();
         });
     });
-
-
 </script>
+
 
 
 @endsection
