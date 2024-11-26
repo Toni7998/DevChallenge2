@@ -30,19 +30,37 @@
     <!-- Mostrar los elementos de la lista -->
     <h2 class="text-2xl font-semibold text-center text-gray-900 dark:text-gray-100 mb-6">Elements de la Llista</h2>
     <div id="shoppingList"></div>
+
+
 </div>
 
-<script>
+<script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js';
+    import { getDatabase, ref, push, remove, onValue } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js';
+
+    // Configuración de Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyDxW1e7hZTJ0gOTR2A5Xkxl1dsjmsxyz",
+        authDomain: "m12-proyecto.firebaseapp.com",
+        databaseURL: "https://m12-proyecto-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "m12-proyecto",
+        storageBucket: "m12-proyecto.appspot.com",
+        messagingSenderId: "109360802652583660232",
+        appId: "1:109360802652583660232:web:9b8a1b2bc0f2388b124c68"
+    };
+
+    // Inicializa Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
     document.addEventListener('DOMContentLoaded', async () => {
-        const database = firebase.database();
-        const shoppingListRef = database.ref('shopping_list');
-        const categoriesRef = database.ref('categories');
+        const shoppingListRef = ref(database, 'shopping_list');
+        const categoriesRef = ref(database, 'categories');
 
         const shoppingListContainer = document.getElementById('shoppingList');
         const categorySelect = document.getElementById('category');
         const messageBox = document.getElementById('message');
 
-        // Función para mostrar mensajes
         const showMessage = (message) => {
             messageBox.textContent = message;
             messageBox.classList.remove('hidden');
@@ -50,7 +68,7 @@
         };
 
         // Cargar categorías
-        categoriesRef.on('value', (snapshot) => {
+        onValue(categoriesRef, (snapshot) => {
             const categories = snapshot.val() || {};
             categorySelect.innerHTML = '<option value="">Selecciona Categoria</option>';
             Object.keys(categories).forEach((key) => {
@@ -62,7 +80,7 @@
         });
 
         // Cargar lista de compra
-        shoppingListRef.on('value', (snapshot) => {
+        onValue(shoppingListRef, (snapshot) => {
             shoppingListContainer.innerHTML = '';
             const items = snapshot.val() || {};
             Object.entries(items).forEach(([key, item]) => {
@@ -83,7 +101,7 @@
             document.querySelectorAll('.delete-btn').forEach((button) => {
                 button.addEventListener('click', (event) => {
                     const id = event.target.dataset.id;
-                    shoppingListRef.child(id).remove();
+                    remove(ref(database, 'shopping_list/' + id));
                     showMessage('Element esborrat correctament!');
                 });
             });
@@ -95,7 +113,7 @@
             const itemName = document.getElementById('item_name').value;
             const category = document.getElementById('category').value;
 
-            shoppingListRef.push({ name: itemName, category });
+            push(shoppingListRef, { name: itemName, category });
             showMessage('Element afegit correctament!');
             event.target.reset();
         });
@@ -105,10 +123,12 @@
             event.preventDefault();
             const categoryName = document.getElementById('category_name').value;
 
-            categoriesRef.push({ name: categoryName });
+            push(categoriesRef, { name: categoryName });
             showMessage('Categoria afegida correctament!');
             event.target.reset();
         });
     });
 </script>
+
+
 @endsection

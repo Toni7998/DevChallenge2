@@ -15,12 +15,6 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <!-- Firebase App (base SDK) -->
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
-
-    <!-- Firebase Realtime Database -->
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
-
 </head>
 
 <body class="font-sans antialiased bg-gray-300 text-gray-900 dark:bg-gray-900 dark:text-gray-1000">
