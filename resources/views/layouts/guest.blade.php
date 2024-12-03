@@ -24,21 +24,57 @@
             </a>
         </div>
 
-        <div>
-            class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
-            {{ $slot }}
+        <!-- Form Container -->
+        <div
+            class="w-full sm:max-w-md mt-6 px-6 py-4 bg-light-200 dark:bg-dark-200 shadow-md overflow-hidden sm:rounded-lg">
+            <form>
+                <!-- Email -->
+                <label class="block text-sm font-medium text-light-900 dark:text-white" for="email">Email</label>
+                <input
+                    class="block w-full mt-1 rounded-md border-gray-300 dark:border-gray-700 dark:bg-dark-300 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    type="email" id="email" name="email" required>
+
+                <!-- Password -->
+                <label class="block text-sm font-medium text-light-900 dark:text-white mt-4"
+                    for="password">Password</label>
+                <input
+                    class="block w-full mt-1 rounded-md border-gray-300 dark:border-gray-700 dark:bg-dark-300 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    type="password" id="password" name="password" required>
+
+                <!-- Remember Me -->
+                <div class="flex items-center justify-between mt-4">
+                    <label for="remember_me" class="flex items-center">
+                        <input id="remember_me" type="checkbox"
+                            class="rounded border-gray-300 dark:border-gray-700 dark:bg-dark-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <span class="ml-2 text-sm text-light-900 dark:text-white">Remember me</span>
+                    </label>
+
+                    <a href="/forgot-password" class="text-sm text-light-500 dark:text-gray-400 hover:underline">Forgot
+                        your password?</a>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit"
+                    class="w-full mt-4 py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+                    LOG IN
+                </button>
+            </form>
         </div>
 
-        <div>
-            class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg text-center">
-            <a href="/google-auth/redirect" class="text-sm text-gray-600 dark:text-gray-400 hover:underline">SSO amb
-                Google</a>
+        <!-- SSO Google -->
+        <div
+            class="w-full sm:max-w-md mt-6 px-6 py-4 bg-light-200 dark:bg-dark-200 shadow-md overflow-hidden sm:rounded-lg text-center">
+            <a href="/google-auth/redirect" class="text-sm text-light-500 dark:text-gray-400 hover:underline">
+                SSO amb Google
+            </a>
         </div>
 
-        <div>
-            class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg text-center">
-            <a href="{{ url('auth/twitter') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:underline">SSO amb
-                Twitter</a>
+        <!-- SSO Twitter -->
+        <div
+            class="w-full sm:max-w-md mt-6 px-6 py-4 bg-light-200 dark:bg-dark-200 shadow-md overflow-hidden sm:rounded-lg text-center">
+            <a href="{{ url('auth/twitter') }}" class="text-sm text-light-500 dark:text-gray-400 hover:underline">
+                SSO amb Twitter
+            </a>
         </div>
     </div>
 </body>

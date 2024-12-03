@@ -11,17 +11,11 @@
                 </div>
 
                 <!-- Navigation Links -->
-<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-gray-800 dark:text-gray-200">
-        {{ __('Dashboard') }}
-    </x-nav-link>
-
-    <!-- Nuevo enlace para la Llista de Compra -->
-    <x-nav-link :href="route('shopping_list.index')" :active="request()->routeIs('shopping_list.index')" class="text-gray-800 dark:text-gray-200">
-        {{ __('Llista de Compra') }}
-    </x-nav-link>
-</div>
-
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-gray-800 dark:text-gray-200">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
